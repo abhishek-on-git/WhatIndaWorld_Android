@@ -25,7 +25,7 @@ class NewsFragment : Fragment() {
 
     private lateinit var mViewModel: NewsViewModel
     private lateinit var mFragmentNewsBinding: FragmentNewsBinding
-    private lateinit var mAdapter: HeadlinesAdapter
+    private lateinit var mFreshHeadlinesAdapter: HeadlinesAdapter
 
     private val mCountry = "in"
     private var mPage = 1
@@ -46,7 +46,7 @@ class NewsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mViewModel = (activity as HomeActivity).mViewModel
-        mAdapter = (activity as HomeActivity).mHeadlinesAdapter
+        mFreshHeadlinesAdapter = (activity as HomeActivity).mHeadlinesAdapter
         mFragmentNewsBinding = FragmentNewsBinding.bind(view)
         setUpListeners()
         setupRecyclerView()
@@ -57,13 +57,13 @@ class NewsFragment : Fragment() {
     fun setupRecyclerView() {
         mFragmentNewsBinding.headlinesRV.apply {
             layoutManager = LinearLayoutManager(activity)
-            adapter = mAdapter
+            adapter = mFreshHeadlinesAdapter
             addOnScrollListener(mScrollListener)
         }
     }
 
     fun setUpListeners() {
-        mAdapter.setItemClickListener {
+        mFreshHeadlinesAdapter.setItemClickListener {
             val bundle = Bundle().apply {
                 putSerializable("clicked_article", it)
             }
@@ -116,7 +116,7 @@ class NewsFragment : Fragment() {
                 is Resource.Success -> {
                     hideProgressBar()
                     response.data?.let {
-                        mAdapter.updateList(it.articles)
+                        mFreshHeadlinesAdapter.updateList(it.articles)
                         Log.i("Abhishek", "total : ${it.totalResults}")
                         if(it.totalResults % 20 == 0){
                             mPages = it.totalResults / 20
@@ -145,7 +145,7 @@ class NewsFragment : Fragment() {
                 is Resource.Success -> {
                     hideProgressBar()
                     response.data?.let {
-                        mAdapter.updateList(it.articles)
+                        mFreshHeadlinesAdapter.updateList(it.articles)
                     }
                 }
                 is Resource.Error -> {

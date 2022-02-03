@@ -1,8 +1,10 @@
 package com.wcp.whatindaworld.presentation.di
 
 import android.app.Application
+import com.wcp.whatindaworld.domain.usecase.FetchFromReadLaterUseCase
 import com.wcp.whatindaworld.domain.usecase.FetchHeadlinesUseCase
 import com.wcp.whatindaworld.domain.usecase.FetchSearchedHeadlinesUseCase
+import com.wcp.whatindaworld.domain.usecase.SaveToReadLaterUseCase
 import com.wcp.whatindaworld.presentation.viewmodel.NewsViewModelFactory
 import dagger.Module
 import dagger.Provides
@@ -19,8 +21,17 @@ class VMFactoryModule {
     fun provideNewsViewModelFactory(
         appContext: Application,
         fetchUseCase: FetchHeadlinesUseCase,
-        fetchSearchedUseCase: FetchSearchedHeadlinesUseCase
+        fetchSearchedUseCase: FetchSearchedHeadlinesUseCase,
+        saveToReadLaterUseCase: SaveToReadLaterUseCase,
+        fetchFromReadLaterUseCase: FetchFromReadLaterUseCase
     ): NewsViewModelFactory {
-        return NewsViewModelFactory(appContext, fetchUseCase, fetchSearchedUseCase)
+
+        return NewsViewModelFactory(
+            appContext,
+            fetchUseCase,
+            fetchSearchedUseCase,
+            saveToReadLaterUseCase,
+            fetchFromReadLaterUseCase
+        )
     }
 }

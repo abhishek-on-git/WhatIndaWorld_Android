@@ -2,6 +2,7 @@ package com.wcp.whatindaworld.data.repository
 
 import com.wcp.whatindaworld.data.model.APIResponse
 import com.wcp.whatindaworld.data.model.Article
+import com.wcp.whatindaworld.data.repository.dataSource.NewsLocalDataSource
 import com.wcp.whatindaworld.data.repository.dataSource.NewsRemoteDataSource
 import com.wcp.whatindaworld.domain.repository.NewsRepository
 import com.wcp.whatindaworld.util.Resource
@@ -9,7 +10,8 @@ import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 
 class NewsRepositoryImpl(
-    private val remoteDataSource: NewsRemoteDataSource
+    private val remoteDataSource: NewsRemoteDataSource,
+    private val localDataSource: NewsLocalDataSource
 ): NewsRepository {
 
     override suspend fun fetchHeadlines(
@@ -30,7 +32,7 @@ class NewsRepositoryImpl(
     }
 
     override suspend fun saveToReadLater(article: Article) {
-        TODO("Not yet implemented")
+        localDataSource.saveNewsArticleToDB(article)
     }
 
     override suspend fun deleteFromReadLater(article: Article) {
@@ -38,7 +40,7 @@ class NewsRepositoryImpl(
     }
 
     override fun fetchFromReadLater(): Flow<List<Article>> {
-        TODO("Not yet implemented")
+        return localDataSource.fetchSavedArticles()
     }
 
     private fun wrapResponseInResource(response: Response<APIResponse>): Resource<APIResponse> {

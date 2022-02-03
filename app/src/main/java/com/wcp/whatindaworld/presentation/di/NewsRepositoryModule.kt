@@ -1,6 +1,7 @@
 package com.wcp.whatindaworld.presentation.di
 
 import com.wcp.whatindaworld.data.repository.NewsRepositoryImpl
+import com.wcp.whatindaworld.data.repository.dataSource.NewsLocalDataSource
 import com.wcp.whatindaworld.data.repository.dataSource.NewsRemoteDataSource
 import com.wcp.whatindaworld.domain.repository.NewsRepository
 import dagger.Module
@@ -16,8 +17,9 @@ class NewsRepositoryModule {
     @Singleton
     @Provides
     fun provideNewsRepository(
-        remoteDataSource: NewsRemoteDataSource
+        remoteDataSource: NewsRemoteDataSource,
+        localDataSource: NewsLocalDataSource
     ): NewsRepository {
-        return NewsRepositoryImpl(remoteDataSource)
+        return NewsRepositoryImpl(remoteDataSource, localDataSource)
     }
 }

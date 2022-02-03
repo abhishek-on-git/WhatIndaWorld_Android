@@ -11,6 +11,8 @@ import com.wcp.whatindaworld.databinding.HeadlineListItemBinding
 
 class HeadlinesAdapter: RecyclerView.Adapter<HeadlinesAdapter.HeadlinesViewHolder>() {
 
+    private var mItemClickListener: ((Article) -> Unit)? = null
+
     private val mCallback = object: DiffUtil.ItemCallback<Article>() {
         override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
             return oldItem.url == newItem.url
@@ -23,10 +25,8 @@ class HeadlinesAdapter: RecyclerView.Adapter<HeadlinesAdapter.HeadlinesViewHolde
 
     val mDiffer = AsyncListDiffer(this, mCallback)
 
-    private var itemClickListener: ((Article) -> Unit)? = null
-
     fun setItemClickListener(listener: (Article) -> Unit) {
-        itemClickListener = listener
+        mItemClickListener = listener
     }
 
     fun updateList(list: List<Article>) {
@@ -56,14 +56,14 @@ class HeadlinesAdapter: RecyclerView.Adapter<HeadlinesAdapter.HeadlinesViewHolde
         fun bind(article: Article) {
             binding.title.text = article.title
             binding.summary.text = article.description
-            binding.source.text = article.source.name
+            binding.source.text = article.source?.name
             binding.datePublished.text = article.publishedAt
             Glide.with(binding.thumbnail.context)
                 .load(article.urlToImage)
                 .into(binding.thumbnail)
 
             binding.root.setOnClickListener{
-                itemClickListener?.let {
+                mItemClickListener?.let {
                     it(article)
                 }
             }

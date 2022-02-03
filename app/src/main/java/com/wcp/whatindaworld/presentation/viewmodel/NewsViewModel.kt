@@ -5,22 +5,25 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.wcp.whatindaworld.data.model.APIResponse
+import com.wcp.whatindaworld.data.model.Article
+import com.wcp.whatindaworld.domain.usecase.FetchFromReadLaterUseCase
 import com.wcp.whatindaworld.domain.usecase.FetchHeadlinesUseCase
 import com.wcp.whatindaworld.domain.usecase.FetchSearchedHeadlinesUseCase
+import com.wcp.whatindaworld.domain.usecase.SaveToReadLaterUseCase
 import com.wcp.whatindaworld.util.Resource
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
 class NewsViewModel(
     private val appContext: Application,
     private val fetchUseCase: FetchHeadlinesUseCase,
-    private val fetchSearchedUseCase: FetchSearchedHeadlinesUseCase
+    private val fetchSearchedUseCase: FetchSearchedHeadlinesUseCase,
+    private val saveToReadLaterUseCase: SaveToReadLaterUseCase,
+    private val fetchFromReadLaterUseCase: FetchFromReadLaterUseCase
 ): AndroidViewModel(appContext) {
 
     private val mHeadlines : MutableLiveData<Resource<APIResponse>> = MutableLiveData()
@@ -96,5 +99,14 @@ class NewsViewModel(
         return false
     }
 
+    fun saveToReadLater(article: Article) = viewModelScope.launch {
+        saveToReadLaterUseCase.execute(article)
+    }
+
+    fun fetchAllFromReadLater() = liveData {
+        fetchFromReadLaterUseCase.execute().collect {
+            emit(it)
+        }
+    }
 
 }
