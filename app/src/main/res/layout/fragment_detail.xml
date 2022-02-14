@@ -11,7 +11,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:backgroundTint="#8C7A7A"
         android:clickable="true"
         android:src="@drawable/ic_baseline_save_alt_24"
         app:layout_constraintBottom_toBottomOf="parent"

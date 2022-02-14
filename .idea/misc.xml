@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Tech/Android/Projects/WhatIndaWorld/app/src/main/res/drawable/ic_headline_24.xml" value="0.17760416666666667" />
+        <entry key="..\:/Tech/Android/Projects/WhatIndaWorld/app/src/main/res/drawable/ic_saved_news_24.xml" value="0.17760416666666667" />
         <entry key="..\:/Tech/Android/Projects/WhatIndaWorld/app/src/main/res/layout/activity_home.xml" value="0.2421875" />
         <entry key="..\:/Tech/Android/Projects/WhatIndaWorld/app/src/main/res/layout/activity_main.xml" value="0.21965579710144928" />
         <entry key="..\:/Tech/Android/Projects/WhatIndaWorld/app/src/main/res/layout/fragment_detail.xml" value="0.152" />
